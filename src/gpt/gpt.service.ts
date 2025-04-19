@@ -1,35 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import * as dotenv from 'dotenv';
-
 dotenv.config();
 
 @Injectable()
 export class GptService {
   async generateResponse(prompt: string): Promise<string> {
-    const apiKey = process.env.OPENAI_API_KEY;
-
-    console.log('🔑 Using OpenAI API key:', apiKey?.slice(0, 5) + '...');
+    const apiKey = process.env.OPENROUTER_API_KEY;
+    const endpoint = 'https://openrouter.ai/api/v1/chat/completions';
 
     try {
       const response = await axios.post(
-        'https://api.openai.com/v1/chat/completions',
+        endpoint,
         {
-          model: 'gpt-3.5-turbo', // safer default; change to 'gpt-4' if your key supports it
-          messages: [{ role: 'user', content: prompt }],
+          model: 'mistralai/mistral-7b-instruct', // FREE model
+          messages: [
+            { role: 'user', content: prompt },
+          ],
         },
         {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
+            'HTTP-Referer': 'https://github.com/anthonykuong/gpt-chatbot',
+            'X-Title': 'GPT Chatbot Demo',
           },
         },
       );
 
-      return response.data.choices[0].message.content.trim();
-    } catch (error: any) {
-      console.error('🔥 OpenAI API Error:', error.response?.data || error.message);
-      return 'Oops! Failed to get a response from the AI.';
+      return response.data.choices[0].message.content;
+    } catch (error: unknown) {
+      // Typecast error as AxiosError
+      const axiosError = error as AxiosError;
+      console.error('🔥 OpenRouter API Error:', axiosError.response?.data || axiosError.message);
+      return 'Sorry, something went wrong with the AI response.';
     }
   }
 }

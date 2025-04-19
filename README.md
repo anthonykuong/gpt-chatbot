@@ -1,17 +1,25 @@
 # GPT Chatbot with NestJS
 
-A simple chatbot built with NestJS, using OpenAI's GPT-4 model to generate responses based on user input.
+
+This is a simple GPT-4 chatbot using NestJS. It allows users to enter a prompt and get a response using the OpenRouter API's free models.
+
+
+### Author
+This project was created by Anthony Ku Ong.
+
+
+## How It Works
+
+The chatbot uses **OpenRouter API** to generate responses. It only uses free models such as **Mistral-7b-Instruct**. You can enter a prompt, and the chatbot will respond with an AI-generated message.
 
 ## Features
 
-- **NestJS-based Backend**: Built using NestJS to serve a simple API.
-- **GPT-4 Integration**: Uses OpenAI's GPT-4 model to generate dynamic responses.
-- **Environment Configuration**: Uses `.env` to securely store the OpenAI API key.
+- Uses **NestJS** for backend structure.
+- Free AI model usage via **OpenRouter API**.
+- Hosted on **Render** for free usage.
+- Deployable anywhere.
 
-## Requirements
 
-- Node.js
-- OpenAI API key (from [OpenAI](https://openai.com/))
 
 ## Installation
 
